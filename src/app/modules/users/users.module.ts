@@ -5,9 +5,12 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   MatTableModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatButtonModule
 } from '@angular/material';
 import { AllUsersComponent } from './pages/all-users/all-users.component';
+import { AddUserComponent } from './pages/add-user/add-user.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -15,6 +18,8 @@ const routes: Routes = [
     component: UsersComponent,
     children: [
       { path: 'all', component: AllUsersComponent },
+      { path: 'add', component: AddUserComponent },
+      { path: 'edit/:id', component: AddUserComponent },
       { path: '', redirectTo: 'all', pathMatch: 'full' }
     ]
   }
@@ -26,8 +31,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatTableModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatButtonModule,
+    ReactiveFormsModule
   ],
-  declarations: [UsersComponent, AllUsersComponent]
+  declarations: [UsersComponent, AllUsersComponent, AddUserComponent]
 })
 export class UsersModule {}

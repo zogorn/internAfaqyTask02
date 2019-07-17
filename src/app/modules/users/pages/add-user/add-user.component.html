@@ -1,3 +1,43 @@
-<p>
-  add-user works!
-</p>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <div class="example-container">
+    <mat-form-field hintLabel="Max 15 characters">
+      <input
+        matInput
+        #input
+        maxlength="15"
+        placeholder="Enter your fullName"
+        formControlName="name"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Enter your UserName"
+        formControlName="username"
+        required
+      />
+      <!-- <mat-error *ngIf="userName.invalid">{{getErrorMessageu()}}</mat-error> -->
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Enter your email"
+        formControlName="email"
+        required
+      />
+      <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+    </mat-form-field>
+    <button
+      mat-button
+      color="primary"
+      id="button"
+      type="submit"
+      [disabled]="!userForm.valid"
+    >
+      Add
+    </button>
+  </div>
+</form>

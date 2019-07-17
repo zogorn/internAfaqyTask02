@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { UsersService } from '../../services/users/users.service';
 import { take } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 
 export interface PeriodicElement {
   name: string;
@@ -29,10 +30,14 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./all-users.component.css']
 })
 export class AllUsersComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'username'];
+  displayedColumns: string[] = ['id', 'name', 'username', 'actions'];
   dataSource = new MatTableDataSource();
 
-  constructor(private usersSer: UsersService) {}
+  constructor(
+    private usersSer: UsersService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.getUsers();
@@ -42,10 +47,25 @@ export class AllUsersComponent implements OnInit {
     this.usersSer
       .getAllUsers()
       .pipe(take(1))
-      .subscribe((resp: any) => (this.dataSource = resp));
+      .subscribe((resp: any) => ((this.dataSource = resp), console.log(resp)));
   }
 
-  applyFilter(filterValue: string) {
+  applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  edit(id: any): void {
+    this.router.navigate(['../edit/' + id], { relativeTo: this.route });
+  }
+
+  delete(id: any): void {
+    if (confirm('Are You Sure!!!')) {
+      this.usersSer
+        .deleteUser(id)
+        .pipe(take(1))
+        .subscribe(resp => {
+          this.getUsers();
+        });
+    }
   }
 }
